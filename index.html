@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#155E63" />
+<meta name="description" content="Quiz Battle - a real-time multiplayer quiz for friends. Create a room, share the code, answer faster, score more." />
+<title>Quiz Battle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- ================= HOME ================= -->
+  <section class="screen is-active" id="screen-home">
+    <div class="home-card">
+      <div class="brand-mark" aria-hidden="true">
+        <span class="brand-mark__letter">Q</span>
+        <span class="brand-mark__dot"></span>
+      </div>
+
+      <h1 class="home-title">Quiz Battle</h1>
+      <p class="home-tagline">
+        <span>Play together.</span>
+        <span>Answer faster.</span>
+        <span class="is-coral">Score more.</span>
+      </p>
+
+      <div class="home-actions">
+        <button class="btn btn--primary btn--block" id="btn-go-create">Create Room</button>
+        <button class="btn btn--ghost btn--block" id="btn-go-join">Join Room</button>
+      </div>
+
+      <ul class="how">
+        <li class="how__item">
+          <span class="how__num">1</span>
+          <div><strong>One person hosts</strong><span>They add the questions and set the timer.</span></div>
+        </li>
+        <li class="how__item">
+          <span class="how__num">2</span>
+          <div><strong>Everyone joins</strong><span>Share the 5 letter room code with friends.</span></div>
+        </li>
+        <li class="how__item">
+          <span class="how__num">3</span>
+          <div><strong>Fastest correct answer wins</strong><span>Only the first correct tap scores a point.</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="brand-pill">Developed &amp; Managed by Anoop Dubey</div>
+  </section>
+
+  <!-- ================= CREATE ================= -->
+  <section class="screen" id="screen-create">
+    <header class="screen__head">
+      <button class="icon-btn" data-go="home" aria-label="Go back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <h2 class="screen__title">Create Room</h2>
+      <span class="screen__head-spacer"></span>
+    </header>
+
+    <div class="card">
+      <label class="field">
+        <span class="field__label">Your Name</span>
+        <input class="input" id="create-name" type="text" maxlength="18" placeholder="Enter your name" autocomplete="name" />
+      </label>
+
+      <div class="field">
+        <span class="field__label">Number of Questions</span>
+        <div class="chip-row" id="create-count">
+          <button class="chip" data-count="5">5</button>
+          <button class="chip" data-count="10">10</button>
+          <button class="chip" data-count="15">15</button>
+          <button class="chip" data-count="20">20</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="field__label">Time per Question</span>
+        <div class="chip-row" id="create-duration">
+          <button class="chip" data-duration="10">10s</button>
+          <button class="chip" data-duration="15">15s</button>
+          <button class="chip" data-duration="20">20s</button>
+          <button class="chip" data-duration="30">30s</button>
+        </div>
+      </div>
+
+      <p class="form-error" id="create-error" role="alert" hidden></p>
+
+      <button class="btn btn--primary btn--block" id="btn-create-room">Create Room</button>
+    </div>
+
+    <div class="brand-pill">Developed &amp; Managed by Anoop Dubey</div>
+  </section>
+
+  <!-- ================= JOIN ================= -->
+  <section class="screen" id="screen-join">
+    <header class="screen__head">
+      <button class="icon-btn" data-go="home" aria-label="Go back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <h2 class="screen__title">Join Room</h2>
+      <span class="screen__head-spacer"></span>
+    </header>
+
+    <div class="card">
+      <label class="field">
+        <span class="field__label">Your Name</span>
+        <input class="input" id="join-name" type="text" maxlength="18" placeholder="Enter your name" autocomplete="name" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">Room Code</span>
+        <input class="input input--code" id="join-code" type="text" maxlength="5" placeholder="A7K92" inputmode="text" autocapitalize="characters" autocomplete="off" spellcheck="false" />
+      </label>
+
+      <p class="form-error" id="join-error" role="alert" hidden></p>
+
+      <button class="btn btn--primary btn--block" id="btn-join-room">Join Room</button>
+    </div>
+
+    <div class="brand-pill">Developed &amp; Managed by Anoop Dubey</div>
+  </section>
+
+  <!-- ================= LOBBY ================= -->
+  <section class="screen" id="screen-lobby">
+    <header class="screen__head">
+      <button class="icon-btn" id="btn-leave-lobby" aria-label="Leave room">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <h2 class="screen__title">Lobby</h2>
+      <span class="screen__head-spacer"></span>
+    </header>
+
+    <div class="card card--code">
+      <span class="card__eyebrow">ROOM CODE</span>
+      <div class="code-display" id="lobby-code">-----</div>
+      <button class="btn btn--soft btn--block" id="btn-copy-code">Copy Code</button>
+      <p class="share-hint" id="lobby-share">Share this code so your friends can join.</p>
+    </div>
+
+    <div class="card">
+      <div class="card__head">
+        <h3 class="card__title">Players <span class="badge" id="lobby-count">0</span></h3>
+      </div>
+      <ul class="player-list" id="lobby-players"></ul>
+      <p class="waiting" id="lobby-waiting">Share the code — the quiz starts when the host is ready.</p>
+    </div>
+
+    <div class="card">
+      <div class="card__head">
+        <h3 class="card__title">Questions <span class="badge" id="lobby-qcount">0/5</span></h3>
+        <button class="btn btn--tiny btn--soft" id="btn-add-question" hidden>+ Add Question</button>
+      </div>
+      <ul class="q-list" id="lobby-questions"></ul>
+      <p class="empty-note" id="lobby-qempty" hidden>No questions yet. Add the first one to get the game started.</p>
+    </div>
+
+    <div class="sticky-actions" id="lobby-actions">
+      <button class="btn btn--primary btn--block" id="btn-start-quiz" hidden>Start Quiz</button>
+      <p class="waiting waiting--strong" id="lobby-waiting-host" hidden>Waiting for host to start...</p>
+    </div>
+
+    <div class="brand-pill">Developed &amp; Managed by Anoop Dubey</div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="screen" id="screen-quiz">
+    <header class="quiz-head">
+      <div class="quiz-head__left">
+        <button class="icon-btn" id="btn-quit-quiz" aria-label="Leave room">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <div class="quiz-head__meta">
+          <span class="quiz-head__label" id="quiz-room">ROOM</span>
+          <span class="quiz-head__code" id="quiz-code">-----</span>
+        </div>
+      </div>
+      <div class="timer" id="quiz-timer">
+        <svg class="timer__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <span id="timer-value">00:10</span>
+      </div>
+    </header>
+
+    <div class="progress">
+      <div class="progress__meta">
+        <span id="progress-label">Question 1 of 5</span>
+        <span id="progress-answered">0 answered</span>
+      </div>
+      <div class="dots" id="progress-dots"></div>
+    </div>
+
+    <!-- question card + answers are shared by both phases -->
+    <div class="q-card">
+      <span class="q-card__eyebrow" id="q-index">QUESTION 01</span>
+      <h2 class="q-card__text" id="q-text">Loading question…</h2>
+    </div>
+
+    <div class="answers" id="answers"></div>
+
+    <div class="submitted" id="submitted" hidden>
+      <span class="submitted__tick">✓</span> Answer submitted
+    </div>
+
+    <!-- shown only while the result of the question is on screen -->
+    <div id="phase-result" hidden>
+      <div class="fastest" id="result-fastest">
+        <span class="fastest__bolt">⚡</span>
+        <div>
+          <span class="fastest__label">Fastest Correct Answer</span>
+          <span class="fastest__name" id="result-winner">—</span>
+        </div>
+        <span class="fastest__point" id="result-points">+1</span>
+      </div>
+      <p class="result-line">Correct answer: <b id="result-answer">—</b></p>
+      <p class="next-hint" id="next-hint">Next question coming up…</p>
+    </div>
+
+    <div class="score-strip" id="score-strip"></div>
+
+    <div class="brand-pill">Developed &amp; Managed by Anoop Dubey</div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <section class="screen" id="screen-results">
+    <div class="results-top">
+      <div class="results-top__emoji">🎉</div>
+      <h2 class="results-top__title">Quiz Complete!</h2>
+      <p class="results-top__sub" id="results-sub">Final scores</p>
+    </div>
+
+    <div class="card">
+      <h3 class="card__title">Final Scores</h3>
+      <ol class="board" id="board"></ol>
+    </div>
+
+    <div class="card card--dare">
+      <div class="dare-head">
+        <span class="dare-emoji">😈</span>
+        <div>
+          <h3 class="card__title">Dare Time</h3>
+          <p class="dare-sub">Lowest scorer gets the dare!</p>
+        </div>
+      </div>
+      <p class="dare-name" id="dare-name">—</p>
+      <p class="dare-note">The dare itself is up to you — this app just names the lowest scorer.</p>
+    </div>
+
+    <div class="sticky-actions">
+      <button class="btn btn--primary btn--block" id="btn-play-again" hidden>Play Again</button>
+      <button class="btn btn--ghost btn--block" id="btn-leave-results">Leave Room</button>
+      <p class="waiting waiting--strong" id="results-waiting" hidden>Waiting for the host to start a new round…</p>
+    </div>
+
+    <div class="brand-pill">Developed &amp; Managed by Anoop Dubey</div>
+  </section>
+
+  <!-- ================= QUESTION MODAL ================= -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h3 class="modal__title" id="modal-title">Add Question</h3>
+
+      <label class="field">
+        <span class="field__label">Question</span>
+        <textarea class="input input--area" id="m-q" rows="2" maxlength="160" placeholder="What is the capital of India?"></textarea>
+      </label>
+
+      <div class="opt-grid">
+        <label class="opt-row">
+          <span class="opt-row__key opt-row__key--a">A</span>
+          <input class="input" data-opt="0" type="text" maxlength="60" placeholder="Option A" />
+        </label>
+        <label class="opt-row">
+          <span class="opt-row__key opt-row__key--b">B</span>
+          <input class="input" data-opt="1" type="text" maxlength="60" placeholder="Option B" />
+        </label>
+        <label class="opt-row">
+          <span class="opt-row__key opt-row__key--c">C</span>
+          <input class="input" data-opt="2" type="text" maxlength="60" placeholder="Option C" />
+        </label>
+        <label class="opt-row">
+          <span class="opt-row__key opt-row__key--d">D</span>
+          <input class="input" data-opt="3" type="text" maxlength="60" placeholder="Option D" />
+        </label>
+      </div>
+
+      <div class="field">
+        <span class="field__label">Correct Answer</span>
+        <div class="chip-row" id="m-correct">
+          <button class="chip" data-correct="0">A</button>
+          <button class="chip" data-correct="1">B</button>
+          <button class="chip" data-correct="2">C</button>
+          <button class="chip" data-correct="3">D</button>
+        </div>
+      </div>
+
+      <p class="form-error" id="m-error" role="alert" hidden></p>
+
+      <div class="modal__actions">
+        <button class="btn btn--ghost" data-close-modal>Cancel</button>
+        <button class="btn btn--primary" id="m-save">Save Question</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+  <div class="offline-bar" id="offline-bar" hidden>Reconnecting…</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
