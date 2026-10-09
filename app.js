@@ -245,6 +245,7 @@
     if (S.screen === name) return;      // no needless re-render / scroll jumps
     S.screen = name;
     if (name !== 'quiz') S.quizKey = '';
+    if (name !== 'lobby' && S.modal.open) closeQuestionModal();
     $$('.screen').forEach(function (screen) {
       screen.classList.toggle('is-active', screen.id === 'screen-' + name);
     });

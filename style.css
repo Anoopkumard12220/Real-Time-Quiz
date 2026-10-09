@@ -3,6 +3,10 @@
    Clean, mobile-first, teal primary with coral / soft green accents.
    ========================================================= */
 
+/* The `hidden` attribute must always win over component display rules
+   (e.g. .modal { display: grid }), otherwise hidden popups stay on screen. */
+[hidden] { display: none !important; }
+
 :root {
   --teal: #155E63;
   --teal-dark: #0F4F54;
